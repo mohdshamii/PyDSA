@@ -254,7 +254,7 @@ TOTAL   ████████████████████████
 </div>
 
 ### Clone the repository
-git clone https://github.com/codexshami/dsa-solutions.git
+git clone https://github.com/mohdshamii/dsa-solutions.git
 
 ### Navigate into the project
 cd dsa-solutions
@@ -294,11 +294,11 @@ print("Repeat until you are unstoppable.")
 
 ## CONNECT
 
-[![GitHub](https://img.shields.io/badge/GitHub-codexshami-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/codexshami)
+[![GitHub](https://img.shields.io/badge/GitHub-codexshami-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohdshamii)
 &nbsp;
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-codexshami-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/codexshami)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-codexshami-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/mohdshamii)
 &nbsp;
-[![Portfolio](https://img.shields.io/badge/Portfolio-Visit_Now-00ffb4?style=for-the-badge&logo=githubpages&logoColor=black)](https://codexshami.github.io)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit_Now-00ffb4?style=for-the-badge&logo=githubpages&logoColor=black)](https://mohdshamii.github.io)
 
 </div>
 
