@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeOrbit · Learn DSA in Python</title>
+<style>
+:root{
+  --bg:#1A1A1A; --p:#212121; --p2:#2A2A2A; --bd:#333333;
+  --tx:#FFFFFF; --mu:#A0A0A0;
+  --a:#FFA116; --a2:#FF8C00;
+  --ok:#2CBB5D; --wa:#FFA116; --er:#EF4743; --info:#3B82F6;
+  --r:12px;
+}
+[data-t=light]{
+  --bg:#F7F7F7; --p:#FFFFFF; --p2:#EFEFEF; --bd:#DEDEDE;
+  --tx:#1A1A1A; --mu:#6A6A6A;
+  --a:#E68A00; --a2:#D97706;
+  --ok:#229B4A; --wa:#E68A00; --er:#D63A36; --info:#2563EB;
+}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font:15px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--info);text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}
+.ic{width:1em;height:1em;display:inline-block;vertical-align:-0.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic.fill{fill:currentColor;stroke:none}
+header{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;padding:10px 16px;background:color-mix(in srgb,var(--p) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
+.brand{font-weight:800;font-size:19px;text-decoration:none;color:var(--tx);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.brand b{color:var(--a)}
+.btn{background:var(--p2);border:1px solid var(--bd);padding:7px 12px;border-radius:9px;transition:.15s;display:inline-flex;align-items:center;gap:6px;line-height:1}
+.btn:hover{border-color:var(--a);transform:translateY(-1px)}
+.btn.pri{background:var(--a);color:#1A1A1A;border-color:var(--a);font-weight:700}
+.btn.pri:hover{background:var(--a2)}
+.btn.on{border-color:var(--a);color:var(--a)}
+.btn.ghost{background:transparent}
+#sw{position:relative;flex:1;max-width:460px;margin:0 auto}
+#q{width:100%;padding:8px 12px 8px 34px;border-radius:9px;border:1px solid var(--bd);background:var(--p2);color:var(--tx);outline:none}
+#q:focus{border-color:var(--a)}
+#sw .si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--mu);pointer-events:none}
+#res{position:absolute;top:110%;left:0;right:0;background:var(--p);border:1px solid var(--bd);border-radius:10px;max-height:60vh;overflow:auto;display:none;box-shadow:0 12px 30px #0008}
+#res a{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;color:var(--tx);text-decoration:none;border-bottom:1px solid var(--bd);align-items:center}
+#res a:last-child{border-bottom:none}
+#res a:hover{background:var(--p2)}
+#res small{color:var(--mu)}
+#menu{display:none}
+.wrap{display:flex;min-height:calc(100vh - 57px)}
+aside{width:280px;flex:none;border-right:1px solid var(--bd);padding:12px;overflow:auto;position:sticky;top:57px;height:calc(100vh - 57px);background:var(--p)}
+aside details{margin-bottom:6px}
+aside summary{cursor:pointer;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:6px 4px;display:flex;align-items:center;gap:6px}
+aside a{display:flex;justify-content:space-between;padding:6px 10px;border-radius:8px;color:var(--tx);text-decoration:none;font-size:14px;gap:8px;align-items:center}
+aside a:hover{background:var(--p2)}
+aside a.cur{background:var(--p2);color:var(--a);font-weight:600}
+aside a small{color:var(--mu);font-variant-numeric:tabular-nums}
+aside a.full small{color:var(--ok)}
+main{flex:1;min-width:0;padding:24px clamp(14px,3vw,40px);max-width:1100px;margin:0 auto;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}}
+h1{font-size:clamp(24px,4vw,34px);margin-bottom:6px;letter-spacing:-.02em}
+h2{margin:22px 0 10px;letter-spacing:-.01em}
+h3{margin:8px 0 4px}
+.mu{color:var(--mu)}
+.hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,var(--p),var(--p2));border:1px solid var(--bd);border-radius:18px;padding:24px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(var(--a),transparent 70%);opacity:.18}
+.ring{width:124px;height:124px;border-radius:50%;display:grid;place-items:center;flex:none;background:conic-gradient(var(--a) calc(var(--v)*1%),var(--bd) 0)}
+.ring div{width:100px;height:100px;border-radius:50%;background:var(--p);display:grid;place-items:center;font-weight:800;font-size:22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;flex:1;min-width:260px;position:relative}
+.stat{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:12px}
+.stat b{display:block;font-size:24px;color:var(--a);display:flex;align-items:center;gap:6px}
+.stat span{font-size:12px;color:var(--mu)}
+.card{background:var(--p);border:1px solid var(--bd);border-radius:var(--r);padding:14px;transition:.18s;text-decoration:none;color:var(--tx);display:block}
+a.card:hover{border-color:var(--a);transform:translateY(-3px);box-shadow:0 8px 24px #0006}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.bar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .4s}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:5px 12px;border-radius:99px;border:1px solid var(--bd);background:var(--p);font-size:13px;color:var(--tx)}
+.chip.on{background:var(--a);color:#1A1A1A;border-color:var(--a);font-weight:600}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--bd);color:var(--mu);margin-left:6px;white-space:nowrap}
+.Easy{color:var(--ok);border-color:var(--ok)}
+.Medium{color:var(--wa);border-color:var(--wa)}
+.Hard{color:var(--er);border-color:var(--er)}
+.lcbadge{font-size:11px;padding:2px 8px;border-radius:6px;background:var(--p2);color:var(--a);border:1px solid var(--bd);margin-left:6px;font-variant-numeric:tabular-nums}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--p);border:1px solid var(--bd);border-radius:var(--r);text-decoration:none;color:var(--tx);transition:.15s}
+.row:hover{border-color:var(--a);transform:translateX(3px)}
+.row .n{font-family:ui-monospace,monospace;color:var(--mu);width:34px;flex:none}
+.row .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row.done .t{opacity:.55;text-decoration:line-through}
+.ck{width:20px;height:20px;border-radius:6px;border:2px solid var(--bd);display:grid;place-items:center;font-size:13px;flex:none}
+.done .ck{background:var(--ok);border-color:var(--ok);color:#fff}
+.tabs{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
+.body{background:var(--p);border:1px solid var(--bd);border-radius:var(--r);padding:8px 22px 18px;overflow:auto}
+.body h1,.body h2,.body h3{margin:18px 0 8px}
+.body p,.body li{margin:6px 0}
+.body ul,.body ol{padding-left:24px}
+.body code{background:var(--p2);padding:1px 6px;border-radius:5px;font-family:ui-monospace,Menlo,monospace;font-size:.9em}
+.body table{border-collapse:collapse;margin:10px 0;display:block;overflow:auto}
+.body td,.body th{border:1px solid var(--bd);padding:6px 10px}
+.body blockquote{border-left:3px solid var(--a);padding:2px 12px;color:var(--mu);margin:8px 0}
+.cb{margin:12px 0;border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:#0F0F0F}
+[data-t=light] .cb{background:#1E1E1E}
+.cbh{display:flex;justify-content:space-between;align-items:center;padding:4px 10px;background:#1A1A1A;color:#A0A0A0;font-size:12px}
+.cbh button{background:none;border:1px solid #333;border-radius:6px;padding:2px 8px;color:#ddd}
+.cb pre{padding:12px 14px;overflow:auto;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;color:#E6E6E6}
+.cb code{background:none!important;padding:0!important}
+.k{color:#C792EA}.s{color:#A5E075}.n2{color:#F78C6C}.c{color:#6B7794;font-style:italic}.f{color:#82AAFF}
+.lock{text-align:center;padding:40px 10px}
+.lock p{margin:8px 0 16px;color:var(--mu)}
+textarea{width:100%;min-height:90px;background:var(--p2);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:10px;font:inherit;resize:vertical}
+textarea:focus{outline:none;border-color:var(--a)}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:16px 0;flex-wrap:wrap}
+.ph{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+#toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,80px);background:var(--a);color:#1A1A1A;padding:9px 18px;border-radius:99px;font-weight:700;transition:.3s;z-index:50;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px #0008}
+#toast.s{transform:translate(-50%,0)}
+.err{padding:30px;text-align:center;border:1px dashed var(--er);border-radius:var(--r)}
+.load{padding:50px;text-align:center;color:var(--mu)}
+.load:before{content:"";display:block;width:34px;height:34px;margin:0 auto 12px;border:3px solid var(--bd);border-top-color:var(--a);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* Heatmap */
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);gap:3px;overflow-x:auto;padding:6px 0}
+.heat i{width:12px;height:12px;border-radius:3px;background:var(--p2);border:1px solid var(--bd)}
+.heat i.l1{background:#4a3714;border-color:#5a4318}
+.heat i.l2{background:#8f6110;border-color:#a06f12}
+.heat i.l3{background:#d18a0f;border-color:#e69810}
+.heat i.l4{background:var(--a);border-color:var(--a)}
+[data-t=light] .heat i.l1{background:#ffe6bf;border-color:#f5d29b}
+[data-t=light] .heat i.l2{background:#ffcb7a;border-color:#f5b95c}
+[data-t=light] .heat i.l3{background:#ffb03d;border-color:#e89b2a}
+.legend{display:flex;gap:6px;align-items:center;font-size:12px;color:var(--mu);margin-top:6px}
+
+/* Stat bars */
+.sbar{display:grid;grid-template-columns:90px 1fr 70px;gap:10px;align-items:center;padding:5px 0;font-size:13px}
+.sbar .bar{margin:0}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:#000a;backdrop-filter:blur(4px);display:none;place-items:center;z-index:60;padding:20px}
+.modal.open{display:grid}
+.modal .box{background:var(--p);border:1px solid var(--bd);border-radius:16px;padding:22px;max-width:520px;width:100%;max-height:80vh;overflow:auto;box-shadow:0 20px 60px #000a}
+.modal h2{margin-top:0}
+.kbd{display:inline-block;background:var(--p2);border:1px solid var(--bd);border-bottom-width:2px;padding:1px 7px;border-radius:6px;font:12px ui-monospace,monospace;color:var(--tx)}
+.krow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--bd);align-items:center;gap:12px}
+.krow:last-child{border-bottom:none}
+
+/* Confetti */
+.confetti{position:fixed;left:50%;top:55%;width:0;height:0;pointer-events:none;z-index:100}
+.confetti svg{position:absolute;width:10px;height:10px;animation:cf 1.25s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+
+/* Revision pill */
+.rev{font-size:11px;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--info) 18%,transparent);color:var(--info);border:1px solid color-mix(in srgb,var(--info) 45%,transparent)}
+.timerbox{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.timerbox button{background:none;border:none;padding:2px;color:var(--mu);border-radius:6px}
+.timerbox button:hover{color:var(--a)}
+
+@media(max-width:820px){
+  #menu{display:inline-flex}
+  aside{position:fixed;left:0;top:57px;z-index:15;transform:translateX(-100%);transition:.25s;width:280px}
+  aside.open{transform:none}
+  .brand span{display:none}
+  main{padding:18px 14px}
+  .sbar{grid-template-columns:70px 1fr 60px}
+}
+</style>
+</head>
+<body>
+<header>
+  <button class="btn" id="menu" aria-label="Menu"></button>
+  <a class="brand" href="#/">
+    <svg class="ic" viewBox="0 0 24 24" style="color:var(--a)"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>
+    Code<b>Orbit</b> <span class="mu" style="font-weight:400;font-size:12px">DSA in Python</span>
+  </a>
+  <div id="sw">
+    <span class="si" id="si"></span>
+    <input id="q" placeholder="Search topics & problems   ( / )" autocomplete="off">
+    <div id="res"></div>
+  </div>
+  <button class="btn" id="stats" title="Statistics (g)"></button>
+  <button class="btn" id="rnd" title="Random problem (r)"></button>
+  <a class="btn" href="#/bm" title="Bookmarks (b)" id="bmlink"></a>
+  <button class="btn" id="ks" title="Keyboard shortcuts (?)"></button>
+  <button class="btn" id="th" title="Theme (t)"></button>
+</header>
+
+<div class="wrap">
+  <aside id="side"></aside>
+  <main id="main"><div class="load">Loading the CodeOrbit library…</div></main>
+</div>
+
+<div id="toast"></div>
+<div class="modal" id="modal"><div class="box" id="mbox"></div></div>
+
+<script>
+/* ============ CONFIG ============ */
+const OWNER='mohdshamii',REPO='CodeOrbit',BRANCH='main';
+const RAW=`https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+const CATS={
+ 'Core DSA':['Array_and_List','LinkedList','Stack_and_Queues','Trees','Heaps','Heap','Sorting_and_Searching','Sorting_and_Aearching','Matrix','String','Hash','SlidingWindow','TwoPointer','Recursion','BackStracking','DynamicProgramming','Graphs','GreedyAlgorithm','BitManipulation','Divide_and_Conquer','Matchematical_problem','GeomatricalProblem'],
+ 'Advanced':['Advanced_DataStructure','Advanced_String','Advanced_Mathematics','Advanced_Problems','Competative_programming'],
+ 'Programming':['OOP','Advanced_PythonConcept','FunctionalProgramming','Basics','Concurrency_and_Multithreading'],
+ 'Core CS':['SystemDesign','Databases','Networking','Security','Testing_and_debugging'],
+ 'Data & Dev':['DataScience','MachineLearning','WebDevelopment','GameDevelopement'],
+ 'Real World':['RealWorldApplication','RealWorldProblem','Miscellaneous']};
+
+/* ============ SVG ICON SET (no emojis) ============ */
+const ICO={
+ menu:'<svg class=ic viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>',
+ search:'<svg class=ic viewBox="0 0 24 24"><circle cx=11 cy=11 r=7/><path d="M21 21l-4.3-4.3"/></svg>',
+ dice:'<svg class=ic viewBox="0 0 24 24"><rect x=3 y=3 width=18 height=18 rx=3/><circle cx=8.5 cy=8.5 r=1.1 fill=currentColor stroke=none/><circle cx=15.5 cy=8.5 r=1.1 fill=currentColor stroke=none/><circle cx=12 cy=12 r=1.1 fill=currentColor stroke=none/><circle cx=8.5 cy=15.5 r=1.1 fill=currentColor stroke=none/><circle cx=15.5 cy=15.5 r=1.1 fill=currentColor stroke=none/></svg>',
+ star:'<svg class=ic viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.6 4.1 1.3 6L12 16.9 6.6 19.4l1.3-6L3.3 9.3l6.1-.7z"/></svg>',
+ starF:'<svg class="ic fill" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.6 4.1 1.3 6L12 16.9 6.6 19.4l1.3-6L3.3 9.3l6.1-.7z"/></svg>',
+ theme:'<svg class=ic viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>',
+ check:'<svg class=ic viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+ book:'<svg class=ic viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+ bulb:'<svg class=ic viewBox="0 0 24 24"><path d="M9 21h6M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3z"/></svg>',
+ pencil:'<svg class=ic viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+ cal:'<svg class=ic viewBox="0 0 24 24"><rect x=3 y=5 width=18 height=16 rx=2/><path d="M16 3v4M8 3v4M3 10h18"/></svg>',
+ flame:'<svg class=ic viewBox="0 0 24 24"><path d="M12 2s4 5 4 9a4 4 0 0 1-8 0c0-1 .5-2 .5-2S6 12 6 15a6 6 0 0 0 12 0c0-5-6-13-6-13z"/></svg>',
+ dl:'<svg class=ic viewBox="0 0 24 24"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>',
+ ul:'<svg class=ic viewBox="0 0 24 24"><path d="M12 21V9M6 13l6-6 6 6M4 3h16"/></svg>',
+ clock:'<svg class=ic viewBox="0 0 24 24"><circle cx=12 cy=12 r=9/><path d="M12 7v5l3 2"/></svg>',
+ lock:'<svg class=ic viewBox="0 0 24 24"><rect x=4 y=11 width=16 height=10 rx=2/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+ arrL:'<svg class=ic viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+ arrR:'<svg class=ic viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+ play:'<svg class="ic fill" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg>',
+ pause:'<svg class="ic fill" viewBox="0 0 24 24"><rect x=6 y=4 width=4 height=16/><rect x=14 y=4 width=4 height=16/></svg>',
+ reset:'<svg class=ic viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></svg>',
+ ext:'<svg class=ic viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>',
+ code:'<svg class=ic viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
+ chart:'<svg class=ic viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l4-4 3 3 6-7"/></svg>',
+ kbd:'<svg class=ic viewBox="0 0 24 24"><rect x=2 y=6 width=20 height=12 rx=2/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg>',
+ target:'<svg class=ic viewBox="0 0 24 24"><circle cx=12 cy=12 r=9/><circle cx=12 cy=12 r=5/><circle cx=12 cy=12 r=1.5 fill=currentColor/></svg>',
+ folder:'<svg class=ic viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+ home:'<svg class=ic viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg>',
+ lt:'<svg class=ic viewBox="0 0 24 24"><path d="M8 4v9a4 4 0 0 0 8 0V4M5 20h14"/></svg>',
+ book2:'<svg class=ic viewBox="0 0 24 24"><path d="M3 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H3zM21 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg>',
+ rev:'<svg class=ic viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 1-6.7 3L3 4v5h5"/><path d="M12 8v4l3 2"/></svg>',
+ x:'<svg class=ic viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+};
+
+/* ============ LeetCode problem index (curated) ============ */
+const LC_RAW=[
+[1,'Two Sum','two-sum','Easy'],[2,'Add Two Numbers','add-two-numbers','Medium'],
+[3,'Longest Substring Without Repeating Characters','longest-substring-without-repeating-characters','Medium'],
+[4,'Median of Two Sorted Arrays','median-of-two-sorted-arrays','Hard'],
+[5,'Longest Palindromic Substring','longest-palindromic-substring','Medium'],
+[7,'Reverse Integer','reverse-integer','Medium'],[9,'Palindrome Number','palindrome-number','Easy'],
+[11,'Container With Most Water','container-with-most-water','Medium'],
+[13,'Roman to Integer','roman-to-integer','Easy'],[14,'Longest Common Prefix','longest-common-prefix','Easy'],
+[15,'3Sum','3sum','Medium'],[17,'Letter Combinations of a Phone Number','letter-combinations-of-a-phone-number','Medium'],
+[19,'Remove Nth Node From End of List','remove-nth-node-from-end-of-list','Medium'],
+[20,'Valid Parentheses','valid-parentheses','Easy'],[21,'Merge Two Sorted Lists','merge-two-sorted-lists','Easy'],
+[22,'Generate Parentheses','generate-parentheses','Medium'],[23,'Merge k Sorted Lists','merge-k-sorted-lists','Hard'],
+[26,'Remove Duplicates from Sorted Array','remove-duplicates-from-sorted-array','Easy'],
+[27,'Remove Element','remove-element','Easy'],[28,'Find the Index of the First Occurrence in a String','find-the-index-of-the-first-occurrence-in-a-string','Easy'],
+[33,'Search in Rotated Sorted Array','search-in-rotated-sorted-array','Medium'],
+[34,'Find First and Last Position of Element in Sorted Array','find-first-and-last-position-of-element-in-sorted-array','Medium'],
+[35,'Search Insert Position','search-insert-position','Easy'],[36,'Valid Sudoku','valid-sudoku','Medium'],
+[37,'Sudoku Solver','sudoku-solver','Hard'],[39,'Combination Sum','combination-sum','Medium'],
+[41,'First Missing Positive','first-missing-positive','Hard'],[42,'Trapping Rain Water','trapping-rain-water','Hard'],
+[46,'Permutations','permutations','Medium'],[48,'Rotate Image','rotate-image','Medium'],
+[49,'Group Anagrams','group-anagrams','Medium'],[50,'Pow(x, n)','powx-n','Medium'],
+[51,'N-Queens','n-queens','Hard'],[53,'Maximum Subarray','maximum-subarray','Medium'],
+[54,'Spiral Matrix','spiral-matrix','Medium'],[55,'Jump Game','jump-game','Medium'],
+[56,'Merge Intervals','merge-intervals','Medium'],[57,'Insert Interval','insert-interval','Medium'],
+[62,'Unique Paths','unique-paths','Medium'],[63,'Unique Paths II','unique-paths-ii','Medium'],
+[64,'Minimum Path Sum','minimum-path-sum','Medium'],[66,'Plus One','plus-one','Easy'],
+[70,'Climbing Stairs','climbing-stairs','Easy'],[72,'Edit Distance','edit-distance','Hard'],
+[73,'Set Matrix Zeroes','set-matrix-zeroes','Medium'],[74,'Search a 2D Matrix','search-a-2d-matrix','Medium'],
+[75,'Sort Colors','sort-colors','Medium'],[76,'Minimum Window Substring','minimum-window-substring','Hard'],
+[78,'Subsets','subsets','Medium'],[79,'Word Search','word-search','Medium'],
+[84,'Largest Rectangle in Histogram','largest-rectangle-in-histogram','Hard'],
+[88,'Merge Sorted Array','merge-sorted-array','Easy'],[91,'Decode Ways','decode-ways','Medium'],
+[94,'Binary Tree Inorder Traversal','binary-tree-inorder-traversal','Easy'],
+[98,'Validate Binary Search Tree','validate-binary-search-tree','Medium'],
+[100,'Same Tree','same-tree','Easy'],[101,'Symmetric Tree','symmetric-tree','Easy'],
+[102,'Binary Tree Level Order Traversal','binary-tree-level-order-traversal','Medium'],
+[103,'Binary Tree Zigzag Level Order Traversal','binary-tree-zigzag-level-order-traversal','Medium'],
+[104,'Maximum Depth of Binary Tree','maximum-depth-of-binary-tree','Easy'],
+[105,'Construct Binary Tree from Preorder and Inorder Traversal','construct-binary-tree-from-preorder-and-inorder-traversal','Medium'],
+[108,'Convert Sorted Array to Binary Search Tree','convert-sorted-array-to-binary-search-tree','Easy'],
+[110,'Balanced Binary Tree','balanced-binary-tree','Easy'],[112,'Path Sum','path-sum','Easy'],
+[114,'Flatten Binary Tree to Linked List','flatten-binary-tree-to-linked-list','Medium'],
+[118,'Pascal\'s Triangle','pascals-triangle','Easy'],
+[121,'Best Time to Buy and Sell Stock','best-time-to-buy-and-sell-stock','Easy'],
+[122,'Best Time to Buy and Sell Stock II','best-time-to-buy-and-sell-stock-ii','Medium'],
+[124,'Binary Tree Maximum Path Sum','binary-tree-maximum-path-sum','Hard'],
+[125,'Valid Palindrome','valid-palindrome','Easy'],[127,'Word Ladder','word-ladder','Hard'],
+[128,'Longest Consecutive Sequence','longest-consecutive-sequence','Medium'],
+[130,'Surrounded Regions','surrounded-regions','Medium'],[131,'Palindrome Partitioning','palindrome-partitioning','Medium'],
+[133,'Clone Graph','clone-graph','Medium'],[136,'Single Number','single-number','Easy'],
+[138,'Copy List with Random Pointer','copy-list-with-random-pointer','Medium'],
+[139,'Word Break','word-break','Medium'],[141,'Linked List Cycle','linked-list-cycle','Easy'],
+[142,'Linked List Cycle II','linked-list-cycle-ii','Medium'],[143,'Reorder List','reorder-list','Medium'],
+[146,'LRU Cache','lru-cache','Medium'],[148,'Sort List','sort-list','Medium'],
+[150,'Evaluate Reverse Polish Notation','evaluate-reverse-polish-notation','Medium'],
+[152,'Maximum Product Subarray','maximum-product-subarray','Medium'],
+[153,'Find Minimum in Rotated Sorted Array','find-minimum-in-rotated-sorted-array','Medium'],
+[155,'Min Stack','min-stack','Medium'],[160,'Intersection of Two Linked Lists','intersection-of-two-linked-lists','Easy'],
+[162,'Find Peak Element','find-peak-element','Medium'],
+[167,'Two Sum II Input Array Is Sorted','two-sum-ii-input-array-is-sorted','Medium'],
+[169,'Majority Element','majority-element','Easy'],[189,'Rotate Array','rotate-array','Medium'],
+[190,'Reverse Bits','reverse-bits','Easy'],[191,'Number of 1 Bits','number-of-1-bits','Easy'],
+[198,'House Robber','house-robber','Medium'],[199,'Binary Tree Right Side View','binary-tree-right-side-view','Medium'],
+[200,'Number of Islands','number-of-islands','Medium'],[202,'Happy Number','happy-number','Easy'],
+[203,'Remove Linked List Elements','remove-linked-list-elements','Easy'],
+[206,'Reverse Linked List','reverse-linked-list','Easy'],[207,'Course Schedule','course-schedule','Medium'],
+[208,'Implement Trie (Prefix Tree)','implement-trie-prefix-tree','Medium'],
+[209,'Minimum Size Subarray Sum','minimum-size-subarray-sum','Medium'],
+[210,'Course Schedule II','course-schedule-ii','Medium'],
+[211,'Design Add and Search Words Data Structure','design-add-and-search-words-data-structure','Medium'],
+[212,'Word Search II','word-search-ii','Hard'],[215,'Kth Largest Element in an Array','kth-largest-element-in-an-array','Medium'],
+[217,'Contains Duplicate','contains-duplicate','Easy'],[218,'The Skyline Problem','the-skyline-problem','Hard'],
+[221,'Maximal Square','maximal-square','Medium'],[226,'Invert Binary Tree','invert-binary-tree','Easy'],
+[227,'Basic Calculator II','basic-calculator-ii','Medium'],
+[230,'Kth Smallest Element in a BST','kth-smallest-element-in-a-bst','Medium'],
+[232,'Implement Queue using Stacks','implement-queue-using-stacks','Easy'],
+[234,'Palindrome Linked List','palindrome-linked-list','Easy'],
+[235,'Lowest Common Ancestor of a Binary Search Tree','lowest-common-ancestor-of-a-binary-search-tree','Medium'],
+[236,'Lowest Common Ancestor of a Binary Tree','lowest-common-ancestor-of-a-binary-tree','Medium'],
+[238,'Product of Array Except Self','product-of-array-except-self','Medium'],
+[239,'Sliding Window Maximum','sliding-window-maximum','Hard'],
+[240,'Search a 2D Matrix II','search-a-2d-matrix-ii','Medium'],
+[242,'Valid Anagram','valid-anagram','Easy'],[268,'Missing Number','missing-number','Easy'],
+[283,'Move Zeroes','move-zeroes','Easy'],[287,'Find the Duplicate Number','find-the-duplicate-number','Medium'],
+[295,'Find Median from Data Stream','find-median-from-data-stream','Hard'],
+[297,'Serialize and Deserialize Binary Tree','serialize-and-deserialize-binary-tree','Hard'],
+[300,'Longest Increasing Subsequence','longest-increasing-subsequence','Medium'],
+[322,'Coin Change','coin-change','Medium'],[328,'Odd Even Linked List','odd-even-linked-list','Medium'],
+[338,'Counting Bits','counting-bits','Easy'],[344,'Reverse String','reverse-string','Easy'],
+[347,'Top K Frequent Elements','top-k-frequent-elements','Medium'],
+[349,'Intersection of Two Arrays','intersection-of-two-arrays','Easy'],
+[378,'Kth Smallest Element in a Sorted Matrix','kth-smallest-element-in-a-sorted-matrix','Medium'],
+[394,'Decode String','decode-string','Medium'],[416,'Partition Equal Subset Sum','partition-equal-subset-sum','Medium'],
+[417,'Pacific Atlantic Water Flow','pacific-atlantic-water-flow','Medium'],
+[424,'Longest Repeating Character Replacement','longest-repeating-character-replacement','Medium'],
+[435,'Non-overlapping Intervals','non-overlapping-intervals','Medium'],
+[438,'Find All Anagrams in a String','find-all-anagrams-in-a-string','Medium'],
+[448,'Find All Numbers Disappeared in an Array','find-all-numbers-disappeared-in-an-array','Easy'],
+[543,'Diameter of Binary Tree','diameter-of-binary-tree','Easy'],
+[560,'Subarray Sum Equals K','subarray-sum-equals-k','Medium'],
+[572,'Subtree of Another Tree','subtree-of-another-tree','Easy'],
+[621,'Task Scheduler','task-scheduler','Medium'],[647,'Palindromic Substrings','palindromic-substrings','Medium'],
+[695,'Max Area of Island','max-area-of-island','Medium'],[704,'Binary Search','binary-search','Easy'],
+[739,'Daily Temperatures','daily-temperatures','Medium'],
+[746,'Min Cost Climbing Stairs','min-cost-climbing-stairs','Easy'],
+[763,'Partition Labels','partition-labels','Medium'],[853,'Car Fleet','car-fleet','Medium'],
+[875,'Koko Eating Bananas','koko-eating-bananas','Medium'],
+[876,'Middle of the Linked List','middle-of-the-linked-list','Easy'],
+[904,'Fruit Into Baskets','fruit-into-baskets','Medium'],[912,'Sort an Array','sort-an-array','Medium'],
+[973,'K Closest Points to Origin','k-closest-points-to-origin','Medium'],
+[994,'Rotting Oranges','rotting-oranges','Medium'],
+[1021,'Remove Outermost Parentheses','remove-outermost-parentheses','Easy'],
+[1143,'Longest Common Subsequence','longest-common-subsequence','Medium'],
+[1472,'Design Browser History','design-browser-history','Medium'],
+[1768,'Merge Strings Alternately','merge-strings-alternately','Easy']
+];
+const norm=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const LC={};
+for(const [n,t,s,d] of LC_RAW) LC[norm(t)]={n,s,d};
+
+/* ============ Utilities ============ */
+const $=s=>document.querySelector(s),M=$('#main');
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const ls={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+let S=Object.assign({done:{},bm:{},notes:{},days:[],recent:[],theme:'dark',rev:{},act:{},time:{}},ls.get('co_state',{}));
+const save=()=>ls.set('co_state',S);
+let topics=[],titles=ls.get('co_titles',{}),C={},timer=null,sec=0,running=true;
+document.documentElement.dataset.t=S.theme;
+const toast=(m,icon)=>{const t=$('#toast');t.innerHTML=(icon||ICO.check)+'<span>'+esc(m)+'</span>';t.className='s';clearTimeout(toast.i);toast.i=setTimeout(()=>t.className='',1900)};
+const pretty=d=>d.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2')
+ .replace('Aearching','Searching').replace('BackStracking','Backtracking').replace('Competative','Competitive')
+ .replace('Geomatrical','Geometrical').replace('Matchematical','Mathematical').replace('Developement','Development');
+const cat=d=>Object.keys(CATS).find(c=>CATS[c].includes(d))||'More';
+const pad=n=>String(n).padStart(2,'0');
+const today=()=>new Date().toISOString().slice(0,10);
+const dstr=d=>d.toISOString().slice(0,10);
+
+function leetOf(title){
+ if(!title)return null;
+ let k=norm(title).replace(/^\d+\s+/,'').replace(/\b(leetcode|problem|solution|python|dsa|easy|medium|hard)\b/g,' ').replace(/\s+/g,' ').trim();
+ if(LC[k])return LC[k];
+ for(const key in LC){if(key.length>5&&(k===key||k.includes(key)||key.includes(k)))return LC[key]}
+ return null;
+}
+
+/* ============ Markdown + Python highlight ============ */
+const KW=/^(def|class|return|if|elif|else|for|while|in|not|and|or|is|import|from|as|with|try|except|finally|raise|yield|lambda|pass|break|continue|None|True|False|self|global|nonlocal|assert|del|async|await)$/;
+function hl(c){
+ let o='',l=0,m,p='';
+ const R=/(#.*)|("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|\b(\d+\.?\d*)\b|([A-Za-z_]\w*)/g;
+ while(m=R.exec(c)){
+  o+=esc(c.slice(l,m.index));l=R.lastIndex;
+  o+=m[1]?`<span class=c>${esc(m[1])}</span>`
+   :m[2]?`<span class=s>${esc(m[2])}</span>`
+   :m[3]?`<span class=n2>${m[3]}</span>`
+   :KW.test(m[4])?`<span class=k>${m[4]}</span>`
+   :(/^\s*\(/.test(c.slice(l,l+3))&&p!='.'?`<span class=f>${m[4]}</span>`:m[4]);
+  p=m[0];
+ }
+ return o+esc(c.slice(l));
+}
+const cb=(c,l)=>`<div class=cb><div class=cbh><span>${esc(l||'code')}</span><button data-copy>Copy</button></div><pre><code>${hl(c.replace(/\n$/,''))}</code></pre></div>`;
+
+function md(src){
+ const B=[];
+ src=src.replace(/```(\w*)\n([\s\S]*?)```/g,(m,l,c)=>(B.push(cb(c,l)),'\0'+(B.length-1)+'\0'));
+ src=esc(src);
+ const inl=t=>t.replace(/`([^`]+)`/g,'<code>$1</code>')
+  .replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')
+  .replace(/(^|[\s(])\*([^*\n]+)\*/g,'$1<i>$2</i>')
+  .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target=_blank rel=noopener>$1</a>');
+ const L=src.split('\n');let o='',lst=null,P=[];
+ const fp=()=>{if(P.length){o+='<p>'+inl(P.join(' '))+'</p>';P=[]}};
+ const fl=()=>{if(lst){o+='</'+lst+'>';lst=null}};
+ for(let i=0;i<L.length;i++){
+  const l=L[i];let m;
+  if(m=l.match(/^\0(\d+)\0$/)){fp();fl();o+=B[m[1]]}
+  else if(m=l.match(/^(#{1,6})\s+(.*)/)){fp();fl();o+=`<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`}
+  else if(/^\s*\|.*\|\s*$/.test(l)){
+   fp();fl();let r=[];
+   while(i<L.length&&/^\s*\|.*\|\s*$/.test(L[i]))r.push(L[i++]);i--;
+   o+='<table>'+r.filter(x=>!/^[\s|:-]+$/.test(x)).map((x,j)=>'<tr>'+x.trim().replace(/^\||\|$/g,'').split('|').map(c=>`<t${j?'d':'h'}>${inl(c.trim())}</t${j?'d':'h'}>`).join('')+'</tr>').join('')+'</table>';
+  }
+  else if(m=l.match(/^\s*([-*]|\d+\.)\s+(.*)/)){
+   fp();const t=/\d/.test(m[1])?'ol':'ul';
+   if(lst!=t){fl();o+='<'+t+'>';lst=t}
+   o+='<li>'+inl(m[2])+'</li>';
+  }
+  else if(/^\s*(---+|\*\*\*+)\s*$/.test(l)){fp();fl();o+='<hr>'}
+  else if(m=l.match(/^&gt;\s?(.*)/)){fp();fl();o+='<blockquote>'+inl(m[1])+'</blockquote>'}
+  else if(!l.trim()){fp();fl()}
+  else P.push(l.trim());
+ }
+ fp();fl();return o;
+}
+const render=(txt,path)=>/\.py$/.test(path)?cb(txt,'python'):md(txt);
+
+/* ============ Data loading ============ */
+async function load(){
+ let c=ls.get('co_tree',null),tree;
+ if(c&&Date.now()-c.t<216e5)tree=c.d;
+ else try{
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`);
+  if(!r.ok)throw 0;
+  tree=(await r.json()).tree
+   .filter(x=>x.type=='blob'&&x.path.includes('/')&&!x.path.startsWith('.')&&/\.(md|py|txt)$/.test(x.path))
+   .map(x=>x.path);
+  ls.set('co_tree',{t:Date.now(),d:tree});
+ }catch{if(c)tree=c.d;else throw 0}
+ const map={};
+ for(const p of tree){
+  const parts=p.split('/'),d=parts[0],f=parts.at(-1),base=f.replace(/\.\w+$/,'');
+  const isSol=/solution/i.test(p);
+  const m=base.match(/(\d+)(?!.*\d)/);
+  const key=m?String(+m[1]):base.replace(/solution|problem|[_-]/gi,'').toLowerCase()||base;
+  const T=map[d]??={dir:d,name:pretty(d),cat:cat(d),m:{}};
+  const it=T.m[key]??={key,n:m?+m[1]:0};
+  if(isSol)it.sol=p;else it.prob=p;
+ }
+ topics=Object.values(map).map(t=>({...t,items:Object.values(t.m).sort((a,b)=>a.n-b.n||a.key.localeCompare(b.key))})).filter(t=>t.items.length);
+ const order=Object.values(CATS).flat();
+ topics.sort((a,b)=>{const x=order.indexOf(a.dir),y=order.indexOf(b.dir);return(x<0?99:x)-(y<0?99:y)});
+}
+async function get(p){if(!p)return null;if(C[p])return C[p];const r=await fetch(RAW+encodeURI(p));if(!r.ok)throw 0;return C[p]=await r.text()}
+
+const id=(t,i)=>t.dir+'/'+i.key;
+const all=()=>topics.flatMap(t=>t.items.map(i=>({t,i,id:id(t,i)})));
+const doneIn=t=>t.items.filter(i=>S.done[id(t,i)]).length;
+const hash=(t,i)=>`#/p/${encodeURIComponent(t.dir)}/${encodeURIComponent(i.key)}`;
+const diffOf=x=>(x.match(/\b(Easy|Medium|Hard)\b/i)||[])[1]?.replace(/^./,c=>c.toUpperCase());
+
+function streak(){
+ let s=0,d=new Date();
+ const set=new Set(S.days);
+ if(!set.has(dstr(d)))d.setDate(d.getDate()-1);
+ while(set.has(dstr(d))){s++;d.setDate(d.getDate()-1)}
+ return s;
+}
+function revisionDue(){
+ const now=Date.now();
+ return all().filter(x=>S.rev[x.id]&&S.rev[x.id]<=now);
+}
+function markSolved(key,topicDir){
+ S.done[key]=1;
+ const td=today();
+ if(!S.days.includes(td))S.days.push(td);
+ S.act[td]=(S.act[td]||0)+1;
+ // SRS: first review in 3 days
+ if(!S.rev[key])S.rev[key]=Date.now()+3*864e5;
+ save();
+}
+function bumpRev(key,ok){
+ const cur=S.rev[key]||0;
+ S.rev[key]=Date.now()+(ok?Math.min(30,((cur-Date.now())/864e5||0)*2+3):1)*864e5;
+ save();
+}
+function confetti(){
+ const c=document.createElement('div');c.className='confetti';
+ const colors=['#FFA116','#2CBB5D','#3B82F6','#EF4743','#FFFFFF'];
+ for(let i=0;i<26;i++){
+  const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  s.setAttribute('viewBox','0 0 10 10');
+  s.innerHTML=`<rect width="10" height="10" rx="2" fill="${colors[i%colors.length]}"/>`;
+  s.style.setProperty('--x',((Math.random()*2-1)*220).toFixed(0)+'px');
+  s.style.setProperty('--y',(-(Math.random()*220+120)).toFixed(0)+'px');
+  s.style.setProperty('--r',(Math.random()*720).toFixed(0)+'deg');
+  s.style.animationDelay=(Math.random()*.12)+'s';
+  c.appendChild(s);
+ }
+ document.body.appendChild(c);
+ setTimeout(()=>c.remove(),1500);
+}
+
+/* ============ Sidebar ============ */
+function side(cur){
+ const g={};topics.forEach(t=>(g[t.cat]??=[]).push(t));
+ $('#side').innerHTML=Object.entries(g).map(([c,ts])=>
+  `<details ${ts.some(t=>t.dir==cur)||c=='Core DSA'?'open':''}>
+   <summary>${ICO.folder} ${c}</summary>
+   ${ts.map(t=>{const d=doneIn(t);return`<a href="#/t/${encodeURIComponent(t.dir)}" class="${t.dir==cur?'cur':''} ${d==t.items.length&&t.items.length?'full':''}"><span>${t.name}</span><small>${d}/${t.items.length}</small></a>`}).join('')}
+   </details>`).join('');
+}
+
+/* ============ Home ============ */
+function home(){
+ const A=all(),D=A.filter(x=>S.done[x.id]).length,pc=A.length?Math.round(D/A.length*100):0;
+ const dc=A[Math.floor(Date.now()/864e5)%A.length];
+ const due=revisionDue();
+ const cats=['All',...new Set(topics.map(t=>t.cat))];
+ M.innerHTML=`
+ <div class=hero>
+  <div class=ring style="--v:${pc}"><div>${pc}%</div></div>
+  <div style="flex:1;min-width:220px;position:relative">
+   <h1>CodeOrbit</h1>
+   <p class=mu>Learn data structures & algorithms in Python — read the problem, try it yourself, then reveal the solution.</p>
+   <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn pri" id="cont">${ICO.play} Continue</button>
+    <button class=btn id="rnd2">${ICO.dice} Random</button>
+    <a class=btn href="#/stats">${ICO.chart} Stats</a>
+   </div>
+  </div>
+  <div class=stats>
+   <div class=stat><b>${A.length}</b><span>Problems</span></div>
+   <div class=stat><b>${topics.length}</b><span>Topics</span></div>
+   <div class=stat><b>${D}</b><span>Solved</span></div>
+   <div class=stat><b>${ICO.flame} ${streak()}</b><span>Day streak</span></div>
+  </div>
+ </div>
+
+ ${dc?`<a class=card href="${hash(dc.t,dc.i)}" style="margin-bottom:8px;border-color:var(--a)">
+   <span class=mu>${ICO.cal} Daily challenge</span>
+   <h3>${dc.t.name} · #${pad(dc.i.n)}</h3>
+   <span class=mu>${esc(titles[dc.id]?.t||"Open today's problem →")}</span></a>`:''}
+
+ ${due.length?`<div class=card style="margin-bottom:14px;border-color:var(--info)">
+   <span style="color:var(--info);display:flex;align-items:center;gap:6px">${ICO.rev} Revision due (${due.length})</span>
+   <div class=list style="margin-top:8px">${due.slice(0,4).map(x=>`<a class=row href="${hash(x.t,x.i)}"><span class=ck>${S.done[x.id]?ICO.check:''}</span><span class=n>${pad(x.i.n)}</span><span class=t>${esc(titles[x.id]?.t||('Problem '+pad(x.i.n)))}</span><span class=rev>review</span></a>`).join('')}</div>
+  </div>`:''}
+
+ <h2>Topics</h2>
+ <div class=chips id=chips>${cats.map((c,i)=>`<button class="chip ${i?'':'on'}" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+ <div class=grid id=tg></div>
+
+ <h2>Your progress data</h2>
+ <div class=card>
+  <p class=mu style="margin-bottom:10px">Saved in this browser. Export to back up or move devices.</p>
+  <button class=btn id=ex>${ICO.dl} Export</button>
+  <button class=btn id=im>${ICO.ul} Import</button>
+  <button class=btn id=rs style="color:var(--er)">${ICO.reset} Reset</button>
+  <input type=file id=fi hidden accept=.json>
+ </div>`;
+
+ const tg=f=>$('#tg').innerHTML=topics.filter(t=>f=='All'||t.cat==f).map(t=>{
+  const d=doneIn(t);
+  return`<a class=card href="#/t/${encodeURIComponent(t.dir)}">
+   <small class=mu>${esc(t.cat)}</small>
+   <h3>${esc(t.name)}</h3>
+   <span class=mu>${d} / ${t.items.length} solved</span>
+   <div class=bar><i style="width:${t.items.length?d/t.items.length*100:0}%"></i></div>
+  </a>`}).join('');
+ tg('All');
+
+ $('#chips').onclick=e=>{const c=e.target.dataset.c;if(!c)return;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x==e.target));tg(c)};
+ $('#rnd2').onclick=rand;
+ $('#cont').onclick=()=>{const r=S.recent[0];
+  if(r)location.hash='#/p/'+r.split('/').map(encodeURIComponent).join('/');
+  else{const u=A.find(x=>!S.done[x.id])||A[0];location.hash=hash(u.t,u.i)}};
+ $('#ex').onclick=()=>{const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));
+  a.download='codeorbit-progress.json';a.click()};
+ $('#im').onclick=()=>$('#fi').click();
+ $('#fi').onchange=async e=>{try{S=Object.assign(S,JSON.parse(await e.target.files[0].text()));save();toast('Imported');route()}catch{toast('Invalid file',ICO.x)}};
+ $('#rs').onclick=()=>{if(confirm('Erase all progress, bookmarks & notes?')){
+  S={done:{},bm:{},notes:{},days:[],recent:[],theme:S.theme,rev:{},act:{},time:{}};save();route()}};
+}
+
+/* ============ Topic view ============ */
+function topicView(d){
+ const t=topics.find(x=>x.dir==d);if(!t)return home();
+ const dn=doneIn(t);
+ M.innerHTML=`
+ <a href="#/" class=mu>${ICO.arrL} All topics</a>
+ <div class=ph>
+  <div><h1>${esc(t.name)}</h1><span class=mu>${esc(t.cat)} · ${dn}/${t.items.length} solved</span></div>
+  <div><select id=fl class=btn>
+    <option value=all>All</option><option value=todo>Unsolved</option>
+    <option value=done>Solved</option><option value=bm>Bookmarked</option>
+    <option value=rev>Due revision</option>
+  </select></div>
+ </div>
+ <div class=bar style="margin:12px 0 18px"><i style="width:${t.items.length?dn/t.items.length*100:0}%"></i></div>
+ <div class=list id=ls></div>`;
+
+ const draw=()=>{
+  const f=$('#fl').value,now=Date.now();
+  $('#ls').innerHTML=t.items.filter(i=>{
+   const k=id(t,i);
+   return f=='all'||(f=='todo'&&!S.done[k])||(f=='done'&&S.done[k])||(f=='bm'&&S.bm[k])||(f=='rev'&&S.rev[k]&&S.rev[k]<=now);
+  }).map(i=>{
+   const k=id(t,i),ti=titles[k],lc=ti?.lc;
+   return`<a class="row ${S.done[k]?'done':''}" href="${hash(t,i)}">
+    <span class=ck>${S.done[k]?ICO.check:''}</span>
+    <span class=n>${pad(i.n)}</span>
+    <span class=t>${ti?esc(ti.t):'Problem '+pad(i.n)}</span>
+    ${lc?`<span class=lcbadge>LC ${lc.n}</span>`:''}
+    ${ti&&ti.d?`<span class="tag ${ti.d}">${ti.d}</span>`:''}
+    ${S.bm[k]?`<span style="color:var(--a)">${ICO.starF}</span>`:''}
+   </a>`}).join('')||'<p class=mu>Nothing here yet.</p>';
+ };
+ $('#fl').onchange=draw;draw();
+
+ (async()=>{
+  let ch=0;
+  await Promise.all(t.items.filter(i=>i.prob&&!titles[id(t,i)]).map(async i=>{
+   try{
+    const x=await get(i.prob);
+    const h=x.match(/^#+\s*(.+)/m);
+    const title=(h?h[1]:'Problem '+pad(i.n)).replace(/\*|`/g,'').slice(0,90);
+    titles[id(t,i)]={t:title,d:diffOf(x.slice(0,900)),lc:leetOf(title)};
+    ch=1;
+   }catch{}
+  }));
+  if(ch){ls.set('co_titles',titles);if(location.hash.startsWith('#/t/'))draw()}
+ })();
+}
+
+/* ============ Problem view ============ */
+async function probView(d,k){
+ const t=topics.find(x=>x.dir==d);
+ const ix=t?t.items.findIndex(x=>x.key==k):-1;
+ if(ix<0)return home();
+ const it=t.items[ix],K=id(t,it),pv=t.items[ix-1],nx=t.items[ix+1];
+ S.recent=[K,...S.recent.filter(x=>x!=K)].slice(0,8);save();
+
+ let shown=false,tab='p',sec=0,running=true;
+ const ti=titles[K]||{},lc=ti.lc;
+
+ M.innerHTML=`
+ <a href="#/t/${encodeURIComponent(d)}" class=mu>${ICO.arrL} ${esc(t.name)}</a>
+ <div class=ph>
+  <div>
+   <h1 id=ti>${esc(ti.t||('Problem '+pad(it.n)))}</h1>
+   <div class=mu style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:4px">
+    <span>${esc(t.name)} · #${pad(it.n)}</span>
+    ${lc?`<span class="tag ${lc.d}">${lc.d}</span>`:''}
+    <span class=timerbox>
+      ${ICO.clock} <b id=tm>00:00</b>
+      <button id=tt title="Pause">${ICO.pause}</button>
+      <button id=tr title="Reset">${ICO.reset}</button>
+    </span>
+   </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+   ${lc?`<a class="btn pri" target=_blank rel=noopener href="https://leetcode.com/problems/${lc.s}/">${ICO.lt} LeetCode #${lc.n}</a>`:''}
+   <button class=btn id=bk></button>
+   <button class=btn id=dn></button>
+  </div>
+ </div>
+ <div class=tabs>
+  <button class="btn on" id=t1>${ICO.book} Problem</button>
+  <button class=btn id=t2>${ICO.bulb} Solution</button>
+  ${lc?`<a class=btn target=_blank rel=noopener href="https://leetcode.com/problems/${lc.s}/">${ICO.ext} Open on LeetCode</a>`:''}
+  <a class=btn target=_blank rel=noopener href="https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${encodeURI(it.prob||it.sol)}">${ICO.ext} GitHub</a>
+  <button class=btn id=cl title="Copy problem link">${ICO.code} Copy link</button>
+ </div>
+ <div class=body id=bd><div class=load>Loading…</div></div>
+
+ <h2>${ICO.pencil} My notes</h2>
+ <textarea id=nt placeholder="Approach, edge cases, time/space complexity…">${esc(S.notes[K]||'')}</textarea>
+
+ <div class=nav>
+  ${pv?`<a class=btn href="${hash(t,pv)}">${ICO.arrL} Previous</a>`:'<span></span>'}
+  ${nx?`<a class="btn pri" href="${hash(t,nx)}">Next ${ICO.arrR}</a>`:'<span></span>'}
+ </div>`;
+
+ const st=()=>{
+  $('#bk').innerHTML=(S.bm[K]?ICO.starF:ICO.star)+' '+(S.bm[K]?'Bookmarked':'Bookmark');
+  $('#bk').classList.toggle('on',!!S.bm[K]);
+  $('#dn').innerHTML=(S.done[K]?ICO.check:ICO.target)+' '+(S.done[K]?'Solved':'Mark solved');
+  $('#dn').classList.toggle('pri',!!S.done[K]);
+ };
+ st();
+
+ // Timer
+ const tick=()=>{const e=$('#tm');if(!e)return;e.textContent=pad(Math.floor(sec/60))+':'+pad(sec%60)};
+ clearInterval(timer);timer=setInterval(()=>{if(running){sec++;tick()}},1000);
+ $('#tt').onclick=()=>{running=!running;$('#tt').innerHTML=running?ICO.pause:ICO.play};
+ $('#tr').onclick=()=>{sec=0;tick()};
+ window.tg=()=>$('#dn').click();
+ window.ts=()=>$('#t2').click();
+ window.tp=()=>$('#tt').click();
+
+ $('#bk').onclick=()=>{S.bm[K]?delete S.bm[K]:S.bm[K]=1;save();st()};
+ $('#dn').onclick=()=>{
+  if(S.done[K]){delete S.done[K]}
+  else{markSolved(K,d);toast('Problem solved!');confetti()}
+  save();st();side(d);
+ };
+ $('#nt').oninput=e=>{S.notes[K]=e.target.value;save()};
+ $('#cl').onclick=()=>{
+  navigator.clipboard.writeText(location.href);
+  toast('Link copied',ICO.check);
+ };
+
+ const show=async()=>{
+  const b=$('#bd');
+  $('#t1').classList.toggle('on',tab=='p');
+  $('#t2').classList.toggle('on',tab=='s');
+  try{
+   if(tab=='p'){
+    const p=it.prob||it.sol;
+    const x=await get(p);
+    b.innerHTML=render(x,p);
+    const h=x.match(/^#+\s*(.+)/m);
+    if(h&&!titles[K]){
+     const title=h[1].replace(/\*|`/g,'');
+     titles[K]={t:title,d:diffOf(x.slice(0,900)),lc:leetOf(title)};
+     ls.set('co_titles',titles);
+     $('#ti').textContent=title;
+    }
+   }
+   else if(!it.sol){b.innerHTML='<div class=lock><p>No separate solution file found for this problem.</p></div>'}
+   else if(!shown){
+    b.innerHTML=`<div class=lock>
+      <h2>${ICO.lock} Try it yourself first</h2>
+      <p>Spend at least a few minutes thinking — struggling is how you learn.</p>
+      <button class="btn" id=hint>${ICO.bulb} Show hint</button>
+      <button class="btn pri" id=rv>${ICO.bulb} Reveal solution</button>
+    </div>`;
+    $('#rv').onclick=()=>{shown=true;show()};
+    $('#hint').onclick=async()=>{
+     try{
+      const sol=await get(it.sol);
+      const first=sol.split('\n').filter(l=>l.trim()).slice(0,4).join('\n');
+      $('#hint').insertAdjacentHTML('afterend','<div class=body style="margin-top:16px;text-align:left">'+md(first)+'</div>');
+      $('#hint').disabled=true;
+     }catch{}
+    };
+   }
+   else b.innerHTML=render(await get(it.sol),it.sol);
+  }catch{
+   b.innerHTML=`<div class=err>Couldn't load this file.<br><a href="https://github.com/${OWNER}/${REPO}" target=_blank>Open the repo</a></div>`;
+  }
+ };
+ $('#t1').onclick=()=>{tab='p';show()};
+ $('#t2').onclick=()=>{tab='s';show()};
+ show();
+}
+
+/* ============ Bookmarks view ============ */
+function bmView(){
+ const B=all().filter(x=>S.bm[x.id]);
+ const R=S.recent.map(r=>all().find(x=>x.id==r)).filter(Boolean);
+ const row=x=>{
+  const ti=titles[x.id]||{};
+  return`<a class="row ${S.done[x.id]?'done':''}" href="${hash(x.t,x.i)}">
+   <span class=ck>${S.done[x.id]?ICO.check:''}</span>
+   <span class=n>${pad(x.i.n)}</span>
+   <span class=t>${esc(x.t.name)} — ${esc(ti.t||('Problem '+pad(x.i.n)))}</span>
+   ${ti.lc?`<span class=lcbadge>LC ${ti.lc.n}</span>`:''}
+  </a>`};
+ M.innerHTML=`<h1>${ICO.starF} Bookmarks</h1>
+  <div class=list>${B.map(row).join('')||'<p class=mu>Nothing bookmarked yet.</p>'}</div>
+  <h2>${ICO.clock} Recently viewed</h2>
+  <div class=list>${R.map(row).join('')||'<p class=mu>Nothing yet.</p>'}</div>`;
+}
+
+/* ============ Stats view ============ */
+function statsView(){
+ const A=all(),D=A.filter(x=>S.done[x.id]).length;
+ const byDiff={Easy:0,Medium:0,Hard:0};
+ for(const x of A){const ti=titles[x.id];if(S.done[x.id]&&ti?.d&&byDiff[ti.d]!=null)byDiff[ti.d]++}
+ const due=revisionDue().length;
+
+ // Heatmap: last 13 weeks
+ const weeks=13,days=7,total=weeks*days;
+ const start=new Date();start.setHours(0,0,0,0);
+ start.setDate(start.getDate()-(total-1)-((start.getDay()+6)%7));
+ const cells=[];
+ const maxA=Math.max(1,...Object.values(S.act));
+ for(let i=0;i<total;i++){
+  const d=new Date(start);d.setDate(start.getDate()+i);
+  const c=S.act[dstr(d)]||0;
+  const lv=c==0?0:c<=maxA*0.25?1:c<=maxA*0.5?2:c<=maxA*0.75?3:4;
+  cells.push(`<i class="l${lv}" title="${dstr(d)}: ${c} solved"></i>`);
+ }
+
+ const topicRows=topics.map(t=>{
+  const d=doneIn(t),p=t.items.length?Math.round(d/t.items.length*100):0;
+  return`<div class=sbar><span>${esc(t.name)}</span><div class=bar><i style="width:${p}%"></i></div><span class=mu style="text-align:right">${d}/${t.items.length}</span></div>`;
+ }).filter(r=>r).join('');
+
+ M.innerHTML=`
+ <a href="#/" class=mu>${ICO.arrL} Home</a>
+ <h1>${ICO.chart} Statistics</h1>
+ <div class=stats style="margin-bottom:18px">
+  <div class=stat><b>${D}</b><span>Problems solved</span></div>
+  <div class=stat><b>${byDiff.Easy}</b><span style="color:var(--ok)">Easy</span></div>
+  <div class=stat><b>${byDiff.Medium}</b><span style="color:var(--wa)">Medium</span></div>
+  <div class=stat><b>${byDiff.Hard}</b><span style="color:var(--er)">Hard</span></div>
+  <div class=stat><b>${ICO.flame} ${streak()}</b><span>Day streak</span></div>
+  <div class=stat><b>${due}</b><span>Revision due</span></div>
+ </div>
+
+ <h2>Activity (last ${weeks} weeks)</h2>
+ <div class=card>
+  <div class=heat>${cells.join('')}</div>
+  <div class=legend>Less <i style="width:12px;height:12px;border-radius:3px;background:var(--p2);border:1px solid var(--bd);display:inline-block"></i>
+   <i style="width:12px;height:12px;border-radius:3px;background:#8f6110;display:inline-block"></i>
+   <i style="width:12px;height:12px;border-radius:3px;background:#d18a0f;display:inline-block"></i>
+   <i style="width:12px;height:12px;border-radius:3px;background:var(--a);display:inline-block"></i> More</div>
+ </div>
+
+ <h2>Topic progress</h2>
+ <div class=card>${topicRows}</div>`;
+}
+
+/* ============ Keyboard modal ============ */
+function shortcuts(){
+ $('#mbox').innerHTML=`
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+   <h2 style="margin:0">${ICO.kbd} Keyboard shortcuts</h2>
+   <button class=btn id=mc>${ICO.x}</button>
+  </div>
+  ${[
+   ['/', 'Focus search'],
+   ['r', 'Random problem'],
+   ['d', 'Toggle solved (problem view)'],
+   ['s', 'Show solution (problem view)'],
+   ['p', 'Pause / resume timer'],
+   ['j / k', 'Next / previous problem'],
+   ['b', 'Bookmarks page'],
+   ['g', 'Statistics page'],
+   ['t', 'Toggle theme'],
+   ['?', 'This help'],
+   ['Esc', 'Close dialogs / blur']
+  ].map(([k,v])=>`<div class=krow><span class=kbd>${k}</span><span class=mu>${v}</span></div>`).join('')}`;
+ $('#modal').classList.add('open');
+ $('#mc').onclick=closeModal;
+}
+const closeModal=()=>$('#modal').classList.remove('open');
+$('#modal').onclick=e=>{if(e.target.id=='modal')closeModal()};
+
+/* ============ Random ============ */
+function rand(){
+ const A=all(),U=A.filter(x=>!S.done[x.id]),P=U.length?U:A;
+ const x=P[Math.random()*P.length|0];location.hash=hash(x.t,x.i);
+}
+
+/* ============ Router & events ============ */
+function route(){
+ clearInterval(timer);window.tg=window.ts=window.tp=null;
+ const h=location.hash.slice(2).split('/').map(decodeURIComponent);
+ side(h[0]=='t'||h[0]=='p'?h[1]:'');
+ ({t:()=>topicView(h[1]),p:()=>probView(h[1],h[2]),bm:bmView,stats:statsView}[h[0]]||home)();
+ scrollTo(0,0);$('#side').classList.remove('open');
+}
+addEventListener('hashchange',route);
+$('#menu').onclick=()=>$('#side').classList.toggle('open');
+$('#th').onclick=()=>{S.theme=S.theme=='dark'?'light':'dark';document.documentElement.dataset.t=S.theme;save()};
+$('#rnd').onclick=rand;
+$('#stats').onclick=()=>location.hash='#/stats';
+$('#ks').onclick=shortcuts;
+
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-copy]');
+ if(b){
+  navigator.clipboard.writeText(b.closest('.cb').querySelector('pre').textContent);
+  b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200);
+ }
+ if(!e.target.closest('#sw'))$('#res').style.display='none';
+});
+
+$('#q').oninput=e=>{
+ const v=e.target.value.trim().toLowerCase(),r=$('#res');
+ if(!v){r.style.display='none';return}
+ const tr=topics.filter(t=>t.name.toLowerCase().includes(v)).slice(0,5)
+  .map(t=>`<a href="#/t/${encodeURIComponent(t.dir)}"><span>${ICO.folder} ${esc(t.name)}</span><small>${t.items.length} problems</small></a>`);
+ const pr=all().filter(x=>
+   ((titles[x.id]||{}).t||'').toLowerCase().includes(v)||(x.t.name+' '+x.i.n).toLowerCase().includes(v)
+  ).slice(0,10).map(x=>{
+   const ti=titles[x.id]||{};
+   return`<a href="${hash(x.t,x.i)}"><span>${esc(ti.t||('Problem '+pad(x.i.n)))}${ti.lc?` <span class=lcbadge>LC ${ti.lc.n}</span>`:''}</span><small>${esc(x.t.name)}</small></a>`;
+  });
+ r.innerHTML=[...tr,...pr].join('')||'<a><span class=mu>No matches (titles load as you browse topics)</span></a>';
+ r.style.display='block';
+};
+$('#q').onkeydown=e=>{if(e.key=='Enter'){const a=$('#res a');if(a&&a.href){location.href=a.href;$('#res').style.display='none';e.target.blur()}}};
+
+document.addEventListener('keydown',e=>{
+ if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){
+  if(e.key=='Escape'){e.target.blur();closeModal()}
+  return;
+ }
+ if(e.key=='Escape'){closeModal();return}
+ const k=e.key;
+ if(k=='/'){e.preventDefault();$('#q').focus()}
+ else if(k=='r')rand();
+ else if(k=='d'&&window.tg)tg();
+ else if(k=='s'&&window.ts)ts();
+ else if(k=='p'&&window.tp)tp();
+ else if(k=='b')location.hash='#/bm';
+ else if(k=='g')location.hash='#/stats';
+ else if(k=='t')$('#th').click();
+ else if(k=='?')shortcuts();
+ else if(k=='j'||k=='k'){
+  const a=document.querySelector('.nav a'+(k=='j'?'.pri':':not(.pri)'));
+  if(a)location.href=a.href;
+ }
+});
+
+/* Populate header icons */
+$('#menu').innerHTML=ICO.menu;
+$('#si').innerHTML=ICO.search;
+$('#rnd').innerHTML=ICO.dice;
+$('#bmlink').innerHTML=ICO.star;
+$('#ks').innerHTML=ICO.kbd;
+$('#th').innerHTML=ICO.theme;
+$('#stats').innerHTML=ICO.chart;
+
+/* ============ Boot ============ */
+(async()=>{
+ try{await load();route()}
+ catch{
+  M.innerHTML=`<div class=err>
+   <h2>Couldn't load the repository</h2>
+   <p class=mu>GitHub's API may be rate-limited (60 requests/hour per IP) or offline.</p>
+   <p style="margin:12px 0"><button class="btn pri" onclick="location.reload()">${ICO.reset} Retry</button>
+   <a class=btn style="text-decoration:none" target=_blank href="https://github.com/${OWNER}/${REPO}">${ICO.ext} Open repo</a></p>
+  </div>`;
+ }
+})();
+</script>
+</body>
+</html>
